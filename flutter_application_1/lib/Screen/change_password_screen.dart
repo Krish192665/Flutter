@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screen/setting.dart';
 import '../App_Style/App_Screen_Style.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -31,8 +32,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     super.dispose();
   }
 
+  // 👈 2. Submit (Update) બટન પર ક્લિક કરતાં Settings Page પર રીડાયરેક્ટ થશે
   void _handleUpdate() {
-    // કીબોર્ડ બંધ કરવા
     FocusScope.of(context).unfocus();
 
     if (_formKey.currentState?.validate() ?? false) {
@@ -43,8 +44,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
       );
 
-      // અપડેટ થયા પછી પાછા જવા માટે
-      Navigator.pop(context);
+      // Settings Page પર Redirect કરવા માટે
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SettingScreen(),
+        ),
+      );
     }
   }
 
@@ -63,7 +69,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               children: [
                 const SizedBox(height: 6),
 
-                // 1. Top Header: Back Button + Centered "Change Password" Title
+                // 1. Top Header: Back Button (Settings Page પર Redirect થશે) + Centered Title
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -79,9 +85,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                         onPressed: () {
                           FocusScope.of(context).unfocus();
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
+                          // 👈 3. Back Button દબાવતાં સીધું Settings Page પર જશે
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SettingScreen(),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -116,6 +126,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   },
                   decoration: AppStyles.greyInputDecoration(
                     hintText: 'abc@gmail.com',
+                    prefixIcon: const Icon(
+                      Icons.email_outlined,
+                      color: Colors.white70,
+                      size: 22,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -139,6 +154,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   },
                   decoration: AppStyles.greyInputDecoration(
                     hintText: 'acb@123',
+                    prefixIcon: const Icon(
+                      Icons.lock_outline_rounded,
+                      color: Colors.white70,
+                      size: 22,
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureCurrentPassword
@@ -179,6 +199,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   },
                   decoration: AppStyles.greyInputDecoration(
                     hintText: 'bcd@123',
+                    prefixIcon: const Icon(
+                      Icons.vpn_key_outlined,
+                      color: Colors.white70,
+                      size: 22,
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureNewPassword
@@ -219,6 +244,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   },
                   decoration: AppStyles.greyInputDecoration(
                     hintText: 'bcd@123',
+                    prefixIcon: const Icon(
+                      Icons.lock_reset_rounded,
+                      color: Colors.white70,
+                      size: 22,
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureConfirmPassword
@@ -237,7 +267,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
                 const SizedBox(height: 38),
 
-                // 6. "Update" Button (ઓરેન્જ Pill બટન)
+                // 6. "Update" Button (Settings Page પર Redirect થશે)
                 Center(
                   child: SizedBox(
                     width: 200,

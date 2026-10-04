@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Screen/change_password_screen.dart';
+import 'package:flutter_application_1/Screen/login_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const  ChangePasswordScreen(),
+      home: const  LoginScreen(),
     );
   }
 }

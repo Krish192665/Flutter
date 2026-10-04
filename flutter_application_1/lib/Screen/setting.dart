@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screen/supplier_register_screen.dart';
 import '../App_Style/App_Screen_Style.dart';
 import 'help&support_screen.dart';
 import 'about_us.dart';
 import 'contact_us.dart';
 import 'login_screen.dart';
+import 'change_password_screen.dart';// 👈 1. Register Screen Import કર્યું
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -52,7 +54,6 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               onPressed: () {
                 Navigator.pop(dialogContext); // Dialog બંધ કરવા
-                // Login Screen પર રીડાયરેક્ટ કરવા અને પાછળના બધા રૂટ્સ ક્લિયર કરવા
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -97,7 +98,15 @@ class _SettingScreenState extends State<SettingScreen> {
                         color: AppColors.accentOrange,
                         size: 20,
                       ),
-                      onPressed: () => Navigator.of(context).maybePop(),
+                      // 👈 2. Back Button દબાવતાં સીધું Register Page પર જશે
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterScreen(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const Text(
@@ -172,7 +181,21 @@ class _SettingScreenState extends State<SettingScreen> {
               },
             ),
 
-            // 4. Logout
+            // 4. Change Password
+            _SettingsTile(
+              icon: Icons.lock_reset_rounded, // કી/પાસવર્ડ રીસેટ આઇકોન
+              title: 'Change Password',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChangePasswordScreen(),
+                  ),
+                );
+              },
+            ),
+
+            // 5. Logout
             _SettingsTile(
               icon: Icons.logout_rounded,
               title: 'Logout',

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screen/setting.dart'; // 👈 1. Setting Screen Import કર્યું
+
 import '../App_Style/App_Screen_Style.dart';
 import 'role_screen.dart'; // Select Role Screen Import
-import 'login_screen.dart'; // 👈 Login Screen Import કર્યું
+import 'login_screen.dart'; // Login Screen Import
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -36,23 +38,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  // 👈 1. Submit બટન પર ક્લિક થતાં Login Page પર જશે
+  // 👈 2. Register / Submit બટન પર ક્લિક થતાં Setting Page પર રીડાયરેક્ટ થશે
   void _handleSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Account Created Successfully! Please login.'),
+          content: Text('Account Created Successfully!'),
           backgroundColor: Colors.green,
         ),
       );
 
-      // Login page પર રીડાયરેક્ટ કરવા માટે
-      Navigator.pushAndRemoveUntil(
+      // Setting page પર રીડાયરેક્ટ કરવા માટે:
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => const SettingScreen(),
         ),
-        (route) => false,
       );
     }
   }
@@ -73,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // Top Header Row
                 Row(
                   children: [
-                    // 👈 2. Back Button (Role Page પર રીડાયરેક્ટ થશે)
+                    // Back Button (Role Page પર રીડાયરેક્ટ થશે)
                     IconButton(
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
@@ -83,7 +84,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         size: 22,
                       ),
                       onPressed: () {
-                        // Role Page પર જવા માટે:
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -260,7 +260,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 36),
 
-                // 7. Submit Button (હવે Login Screen સાથે connected છે)
+                // 7. Submit / Register Button (હવે Setting Screen સાથે connected છે)
                 Center(
                   child: SizedBox(
                     width: 210,
@@ -290,7 +290,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          // 👈 Login page પર જવા માટે
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

@@ -21,7 +21,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
     if (_selectedRole.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('કૃપા કરીને પહેલા તમારો રોલ (Role) સિલેક્ટ કરો!'),
+          content: Text('Please select your role first.!'),
           backgroundColor: Colors.redAccent,
         ),
       );
