@@ -304,6 +304,7 @@ class AppStyles {
   // New Password સ્ક્રીનના ઇનપુટ બોક્સ માટે (Image મુજબનો Error Color સાથેનું Decoration)
   static InputDecoration greyInputDecoration({
     required String hintText,
+    Widget? prefixIcon,
     Widget? suffixIcon,
   }) {
     return InputDecoration(
@@ -315,6 +316,7 @@ class AppStyles {
         fontSize: 16,
         fontWeight: FontWeight.w400,
       ),
+      prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       // ઇમેજ જેવી ઊંચાઈ અને અંદરની જગ્યા
       contentPadding: const EdgeInsets.symmetric(
