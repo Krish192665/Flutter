@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../App_Style/App_Screen_Style.dart';
+import 'verification_screen.dart'; 
+import 'login_screen.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key});
@@ -24,6 +26,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   }
 
   void _handleSubmit() {
+    // કીબોર્ડ બંધ કરવા
+    FocusScope.of(context).unfocus();
+
     if (_formKey.currentState?.validate() ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -31,8 +36,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
           backgroundColor: Colors.green,
         ),
       );
-      // પાસવર્ડ સેટ થયા પછી Login Screen પર પાછા જવા માટે
-      Navigator.pop(context);
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+        (route) => false,
+      );
     }
   }
 
@@ -43,7 +54,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+          // 👈 2400x1080 સ્ક્રીન માટે પેડિંગ 28 માંથી 20 કર્યું જેથી overflow ન થાય
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -51,7 +63,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               children: [
                 const SizedBox(height: 6),
 
-                // Top Header: Back Button + Centered "New Password" Title
+                // Top Header: Back Button + Centered Title
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -66,8 +78,19 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                           size: 22,
                         ),
                         onPressed: () {
+                          // 👈 ઓવરફ્લો અટકાવવા માટે પહેલા કીબોર્ડ બંધ થશે
+                          FocusScope.of(context).unfocus();
+
+                          // પછી Verification Page પર જશે
                           if (Navigator.canPop(context)) {
                             Navigator.pop(context);
+                          } else {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const VerificationScreen(),
+                              ),
+                            );
                           }
                         },
                       ),
@@ -79,7 +102,9 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 50),
+                
+                // સ્પેસ એડજસ્ટ કરી જેથી કીબોર્ડ સાથે પણ ફિટ બેસે
+                const SizedBox(height: 36),
 
                 // 1. Enter New password
                 const Text(
@@ -119,7 +144,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 22),
 
                 // 2. Confirm Password
                 const Text(
@@ -159,7 +184,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: 40),
 
                 // Submit Button
                 Center(
@@ -176,7 +201,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
               ],
             ),
           ),

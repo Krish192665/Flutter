@@ -15,6 +15,7 @@ class AppColors {
   static const Color errorColor = Colors.orangeAccent;
   static const Color buttonTextColor = Colors.black;
   static const Color dividerColor = Colors.white12;
+  static const Color otpCircleFill = Color(0xFFD9DDE2);
 }
 
 /// 2. ફોન્ટ સ્ટાઇલ્સ (Typography / Text Styles)
@@ -130,7 +131,7 @@ class AppTextStyles {
 
   // Hint ટેક્સ્ટ
   static TextStyle inputHint = TextStyle(
-    color: AppColors.inputTextColor.withOpacity(0.6),
+    color: AppColors.inputTextColor.withValues(alpha: 0.6),
     fontSize: 15,
   );
 
@@ -160,8 +161,33 @@ class AppTextStyles {
     color: AppColors.errorColor,
     fontWeight: FontWeight.w500,
   );
+// અંડરલાઇન સાથેનું ટાઇટલ
+  static const TextStyle verificationTitle = TextStyle(
+    color: AppColors.white,
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.underline,
+    decorationThickness: 2.0,
+  );
+  // OTP સર્કલ અંદરના બોલ્ડ નંબર્સ
+  static const TextStyle otpDigitText = TextStyle(
+    color: Colors.black,
+    fontSize: 26,
+    fontWeight: FontWeight.bold,
+  );
 
-  static TextStyle? get greyInputText => null;
+  static const TextStyle greyInputText = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+
+   static const TextStyle loginHeaderTitle = TextStyle(
+    color: AppColors.white,
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 0.3,
+  );
 }
 
 /// 3. ઇનપુટ, કાર્ડ અને બટન ડેકોરેશન (Widget Styles)
@@ -191,6 +217,17 @@ class AppStyles {
     color: AppColors.cardNavy,
     borderRadius: BorderRadius.circular(14),
     border: Border.all(color: Colors.white10),
+  );
+
+// OTP ગોળાકાર બોક્સ ડેકોરેશન
+  static const BoxDecoration otpCircleDecoration = BoxDecoration(
+    color: AppColors.otpCircleFill,
+    shape: BoxShape.circle,
+  );
+
+   // બે-કલર વાળા Pill Input Box નું ડેકોરેશન
+  static BoxDecoration splitInputBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(26),
   );
 
   // Role Selection Card Decoration

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../App_Style/App_Screen_Style.dart';
+import 'login_screen.dart'; // 👈 1. Login Page Import કર્યું
+import 'supplier_register_screen.dart'; // 👈 2. Supplier Register Page Import કર્યું
+//import 'business_register_screen.dart'; // 👈 3. Business Register Page Import કર્યું
 
 class SelectRoleScreen extends StatefulWidget {
   const SelectRoleScreen({super.key});
@@ -12,7 +15,9 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
   // ડિફોલ્ટ રીતે ખાલી રહેશે
   String _selectedRole = '';
 
+  // Continue / Submit બટનનું લોજિક
   void _handleContinue() {
+    // જો કોઈ રોલ સિલેક્ટ ન કર્યો હોય તો
     if (_selectedRole.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -23,14 +28,24 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Selected Role: ${_selectedRole == "enterprise" ? "Enterprise Supplier" : "Business"}',
+    // 1. Enterprise Supplier માટે નેવિગેશન
+    if (_selectedRole == 'enterprise') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const RegisterScreen(),
         ),
-        backgroundColor: Colors.green,
-      ),
-    );
+      );
+    } 
+    // 2. Business માટે નેવિગેશન
+    else if (_selectedRole == 'business') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+      );
+    }
   }
 
   @override
@@ -48,7 +63,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  // 1. Back Button (Register Page પર જવા માટે)
+                  // 1. Back Button (ક્લિક કરતાં Login Page પર જવા માટે)
                   Align(
                     alignment: Alignment.centerLeft,
                     child: IconButton(
@@ -60,10 +75,13 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
                         size: 22,
                       ),
                       onPressed: () {
-                        // Register page પર પાછા જવા માટે
-                        if (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
+                        // 👈 Login Page પર રીડાયરેક્ટ કરવા માટે
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -106,7 +124,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
 
               const Spacer(),
 
-              // Continue Button
+              // Continue / Submit Button
               Center(
                 child: SizedBox(
                   width: 220,

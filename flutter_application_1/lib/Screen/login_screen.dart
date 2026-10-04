@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Screen/new_password.dart';
-import './register_screen.dart';
+import '../App_Style/App_Screen_Style.dart';
+import 'forgot_password_screen.dart'; // Forgot Password પેજ સાથે કનેક્ટ
+import 'role_screen.dart';            // Sign Up ક્લિક કરતાં Role Screen પર જવા માટે
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,10 +12,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _obscurePassword = true;
-  bool _rememberMe = false;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -24,70 +23,97 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState?.validate() ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logging in...')),
+        const SnackBar(
+          content: Text('Logging in successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      // લૉગિન થયા પછી Role Screen પર જવા માટે
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SelectRoleScreen(),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Scaffold(
+      backgroundColor: AppColors.primaryNavy,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 24.0),
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // App / Brand Icon
-                  Icon(
-                    Icons.table_chart_rounded,
-                    size: 72,
-                    color: colorScheme.primary,
-                  ),
                   const SizedBox(height: 20),
 
-                  // Header Titles
-                  Text(
-                    'Welcome Back',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onSurface,
+                  // 1. SubSetu Circular Logo (assets/images/i1.jpeg)
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ],
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Sign in to access your sheets and dashboard',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 36),
-
-                  // Email Field
-                  TextFormField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: 'Email Address',
-                      prefixIcon: const Icon(Icons.email_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/i1.jpeg',
+                        fit: BoxFit.cover,
+                        // જો ઈમેજ ન મળે તો ફોલબેક આઇકોન દેખાશે
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: AppColors.cardNavy,
+                            child: const Icon(
+                              Icons.hub_rounded,
+                              size: 60,
+                              color: AppColors.accentOrange,
+                            ),
+                          );
+                        },
                       ),
                     ),
+                  ),
+                  const SizedBox(height: 32),
+
+                  // 2. Title: "Login to Account"
+                  const Text(
+                    'Login to Account',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.3,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 48),
+
+                  // 3. Email Input Field (Split Box: Grey Icon + Orange Input)
+                  _buildSplitInputField(
+                    label: 'Email',
+                    controller: _emailController,
+                    hintText: 'Enter your Email',
+                    icon: Icons.email_outlined,
+                    keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Please enter your email';
+                        return 'Enter your email';
                       }
                       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                         return 'Enter a valid email address';
@@ -95,32 +121,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
-                  // Password Field
-                  TextFormField(
+                  // 4. Password Input Field (Split Box: Grey Icon + Orange Input)
+                  _buildSplitInputField(
+                    label: 'Password',
                     controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                    hintText: 'Enter your Password',
+                    icon: Icons.lock_outline_rounded,
+                    obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
+                        return 'Enter your password';
                       }
                       if (value.length < 6) {
                         return 'Password must be at least 6 characters';
@@ -128,109 +140,205 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
 
-                  // 🔴 અહીં એરર આવતી હતી - હવે FittedBox & Compact density થી Fix થઈ ગઈ
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Checkbox(
-                              value: _rememberMe,
-                              // Checkbox ની વધારાની જગ્યા ઘટાડી:
-                              visualDensity: VisualDensity.compact,
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              onChanged: (val) => setState(() => _rememberMe = val ?? false),
-                            ),
-                            const SizedBox(width: 6),
-                            const Text('Remember me'),
-                          ],
-                        ),
-                        const SizedBox(width: 16),
-                        TextButton(
-                          onPressed: () {
-                            // NewPasswordScreen સાથે કનેક્ટ કર્યું
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const NewPasswordScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text('Forgot Password?'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Login Button
-                  FilledButton(
-                    onPressed: _handleLogin,
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      'Sign In',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-
-                  // Divider
-                  Row(
-                    children: [
-                      Expanded(child: Divider(color: colorScheme.outlineVariant)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                  // 5. "Forgot password?" Link (જમણી બાજુ Aligned)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        // Forgot Password પેજ પર જવા માટે
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: Text(
-                          'OR',
-                          style: TextStyle(color: colorScheme.outline),
+                          'Forgot password?',
+                          style: TextStyle(
+                            color: AppColors.accentOrange,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      Expanded(child: Divider(color: colorScheme.outlineVariant)),
-                    ],
+                    ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 38),
 
-                  // Sign Up Link (FittedBox ઉમેર્યું જેથી ક્યારેય overflow ન થાય)
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
+                  // 6. Login Button (ઓરેન્જ Pill બટન)
+                  SizedBox(
+                    width: 170,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: _handleLogin,
+                      style: AppStyles.primaryButtonStyle,
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 60),
+
+                  // 7. Footer: Need an Account ? Sign Up
+                  Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Don't have an account?",
-                          style: TextStyle(color: colorScheme.onSurfaceVariant),
+                        const Text(
+                          'Need an Account ? ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                        TextButton(
-                          onPressed: () {
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            // Role Screen પર જવા માટે
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                              MaterialPageRoute(
+                                builder: (context) => const SelectRoleScreen(),
+                              ),
                             );
                           },
-                          child: const Text(
-                            'Sign Up',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                color: AppColors.accentOrange,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  // 🌟 ઇમેજ મુજબનું Dual-tone Input Field (ડાબી બાજુ ગ્રે આઇકોન + જમણી બાજુ ઓરેન્જ ઇનપુટ)
+  Widget _buildSplitInputField({
+    required String label,
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    bool obscureText = false,
+    TextInputType keyboardType = TextInputType.text,
+    String? Function(String?)? validator,
+  }) {
+    return FormField<String>(
+      validator: validator != null ? (_) => validator(controller.text) : null,
+      builder: (FormFieldState<String> state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Field Label (White)
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Dual-tone Rounded Pill Box
+            Container(
+              height: 52,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(26),
+              ),
+              clipBehavior: Clip.antiAlias, // ખૂણાઓને રાઉન્ડ કટ કરવા માટે
+              child: Row(
+                children: [
+                  // ડાબી બાજુનું ગ્રે આઇકોન કન્ટેનર
+                  Container(
+                    width: 52,
+                    height: double.infinity,
+                    color: const Color(0xFFD9DDE2), // સિલ્વર-ગ્રે કલર
+                    alignment: Alignment.center,
+                    child: Icon(
+                      icon,
+                      color: Colors.black87,
+                      size: 22,
+                    ),
+                  ),
+
+                  // જમણી બાજુનું ઓરેન્જ ટેક્સ્ટફિલ્ડ કન્ટેનર
+                  Expanded(
+                    child: Container(
+                      height: double.infinity,
+                      color: AppColors.accentOrange,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      alignment: Alignment.center,
+                      child: TextFormField(
+                        controller: controller,
+                        obscureText: obscureText,
+                        keyboardType: keyboardType,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        cursorColor: Colors.black,
+                        onChanged: (text) => state.didChange(text),
+                        decoration: InputDecoration(
+                          hintText: hintText,
+                          hintStyle: TextStyle(
+                            color: Colors.black.withValues(alpha: 0.65),
+                            fontSize: 15,
+                          ),
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Error Message (જો વેલિડેશન ફેલ થાય તો)
+            if (state.hasError)
+              Padding(
+                padding: const EdgeInsets.only(top: 6.0, left: 14.0),
+                child: Text(
+                  state.errorText ?? '',
+                  style: const TextStyle(
+                    color: Color(0xFFF5A344), // warm orange error color
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }
