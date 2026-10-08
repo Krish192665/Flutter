@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Resources/supplier_footer.dart';
 import 'package:flutter_application_1/Resources/supplier_header.dart';
-import 'package:flutter_application_1/Supplier/setting.dart';
+import 'package:flutter_application_1/Supplier/supplier_setting.dart';
 import '../App_Style/App_Screen_Style.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -18,7 +18,9 @@ class AppColors {
   static const Color otpCircleFill = Color(0xFFD9DDE2);
   static const Color footerInactive = Colors.white70; // Inactive footer icon/text
   static const Color darkText = Color(0xFF1E1E1E);
-}
+static const Color statusBlue = Color(0xFF2196F3);   // In Progress (Cyan/Blue)
+  static const Color statusGreen = Color(0xFF00E676); 
+  }
 
 
 /// 2. ફોન્ટ સ્ટાઇલ્સ (Typography / Text Styles)
@@ -215,7 +217,45 @@ class AppTextStyles {
     fontSize: 11,
     fontWeight: FontWeight.w500,
   );
-}
+
+static const TextStyle businessHeaderTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.3,
+  );
+  static const TextStyle subheaderGray = TextStyle(
+    fontSize: 13.5,
+    fontWeight: FontWeight.w400,
+    color: AppColors.subtitleGray,
+  );
+  // Stat Card Label (e.g., Total Job, Pending)
+  static const TextStyle statCardLabel = TextStyle(
+    fontSize: 12.5,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.2,
+  );
+  // Order Card Title
+  static const TextStyle orderCardTitle = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+  // Order Card Date
+  static const TextStyle orderCardDate = TextStyle(
+    fontSize: 13,
+    color: AppColors.subtitleGray,
+  );
+
+  // Capabilities Section Title
+  static const TextStyle capabilitiesTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    letterSpacing: 0.2,
+  );
+  }
 
 /// 3. ઇનપુટ, કાર્ડ અને બટન ડેકોરેશન (Widget Styles)
 class AppStyles {
@@ -385,6 +425,43 @@ class AppStyles {
           color: Color(0xFFF5A344),
           width: 1.2,
         ),
+      ),
+    );
+  }
+  // Business Register Dark Input Box Decoration
+  static InputDecoration businessInputDecoration({
+    required String hintText,
+    Widget? suffixIcon,
+  }) {
+    return InputDecoration(
+      filled: true,
+      fillColor: AppColors.cardNavy,
+      hintText: hintText,
+      hintStyle: const TextStyle(
+        color: Color(0xFF6B7E96),
+        fontSize: 14,
+      ),
+      suffixIcon: suffixIcon,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.transparent),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: AppColors.accentOrange, width: 1.2),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.orangeAccent),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.orangeAccent, width: 1.2),
       ),
     );
   }

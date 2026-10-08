@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Bussiness/business_register.dart';
 import '../App_Style/App_Screen_Style.dart';
 import 'login_screen.dart'; // 👈 1. Login Page Import કર્યું
 import '../Supplier/supplier_register_screen.dart'; // 👈 2. Supplier Register Page Import કર્યું
-//import 'business_register_screen.dart'; // 👈 3. Business Register Page Import કર્યું
 
 class SelectRoleScreen extends StatefulWidget {
   const SelectRoleScreen({super.key});
@@ -42,7 +42,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => const BusinessRegisterScreen(),
         ),
       );
     }

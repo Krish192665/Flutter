@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Supplier/setting.dart'; // 👈 1. Setting Screen Import કર્યું
-
+import 'package:flutter_application_1/Supplier/supplier_home.dart';
 import '../App_Style/App_Screen_Style.dart';
 import '../Screen/role_screen.dart'; // Select Role Screen Import
 import '../Screen/login_screen.dart'; // Login Screen Import
@@ -52,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const SettingScreen(),
+          builder: (context) => const HomeScreen(),
         ),
       );
     }
