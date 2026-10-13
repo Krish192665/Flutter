@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Supplier/supplier_home.dart';
 import '../App_Style/App_Screen_Style.dart';
+import '../Resources/profile_data_store.dart';
 import '../Screen/role_screen.dart'; // Select Role Screen Import
 import '../Screen/login_screen.dart'; // Login Screen Import
 
@@ -40,6 +41,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // 👈 2. Register / Submit બટન પર ક્લિક થતાં Setting Page પર રીડાયરેક્ટ થશે
   void _handleSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
+      // 👈 Save registered details to Global Store so Profile Page shows them
+      SupplierDataStore.update(
+        fullName: _fullNameController.text.trim(),
+        email: _emailController.text.trim(),
+        phoneNumber: _phoneController.text.trim(),
+        companyName: _companyController.text.trim(),
+      );
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Account Created Successfully!'),
@@ -47,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
 
-      // Setting page પર રીડાયરેક્ટ કરવા માટે:
+      // Home page પર રીડાયરેક્ટ કરવા માટે:
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

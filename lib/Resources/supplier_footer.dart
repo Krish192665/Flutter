@@ -14,12 +14,7 @@ class CustomFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.primaryNavy,
-        border: Border(
-          top: BorderSide(color: Colors.white12, width: 0.5),
-        ),
-      ),
+      decoration: AppStyles.supplierFooterDecoration,
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: SafeArea(
         top: false,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Resources/supplier_footer.dart'; // 👈 Footer Import
-import 'package:flutter_application_1/Resources/supplier_header.dart'; // 👈 Header Import
 import '../App_Style/App_Screen_Style.dart';
 import 'supplier_help&support_screen.dart';
 import 'supplier_about_us.dart';
 import 'supplier_contact_us.dart';
 import '../Screen/login_screen.dart';
 import 'supplier_change_password_screen.dart';
+import 'supplier_notification.dart';
+import 'supplier_current_order.dart';
 import "./supplier_home.dart"; // 👈 Home Page Import કર્યું (જ્યાં રીડાયરેક્ટ થવું છે)
 
 class SettingScreen extends StatefulWidget {
@@ -28,15 +29,17 @@ class _SettingScreenState extends State<SettingScreen> {
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
-    } else if (index != 2) {
-      // અન્ય ટેબ્સ માટે મેસેજ
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            index == 1 ? 'Current Order Clicked' : 'Notification Clicked',
-          ),
-          duration: const Duration(seconds: 1),
-        ),
+    } else if (index == 1) {
+      // 👈 Current Order ટેબ પર ક્લિક કરતાં SupplierCurrentOrderScreen પર જશે
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SupplierCurrentOrderScreen()),
+      );
+    } else if (index == 3) {
+      // 👈 Notification ટેબ પર ક્લિક કરતાં SupplierNotificationScreen પર જશે
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SupplierNotificationScreen()),
       );
     }
   }
@@ -54,30 +57,22 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
           title: const Text(
             'Logout',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTextStyles.dialogTitle,
           ),
           content: const Text(
             'Are you sure you want to logout from your account?',
-            style: TextStyle(color: AppColors.subtitleGray),
+            style: AppTextStyles.dialogContent,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
               child: const Text(
                 'Cancel',
-                style: TextStyle(color: Colors.white70),
+                style: AppTextStyles.dialogCancel,
               ),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accentOrange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
+              style: AppStyles.dialogConfirmButtonStyle,
               onPressed: () {
                 Navigator.pop(dialogContext); // Dialog બંધ કરવા
                 Navigator.pushAndRemoveUntil(
@@ -88,10 +83,7 @@ class _SettingScreenState extends State<SettingScreen> {
               },
               child: const Text(
                 'Logout',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyles.dialogConfirm,
               ),
             ),
           ],
@@ -104,20 +96,6 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryNavy,
-
-      // 👈 ૧. Supplier Header કૉલ કર્યો
-      appBar: CustomHeader(
-        onProfileTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile Clicked')),
-          );
-        },
-        onMenuTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Menu Clicked')),
-          );
-        },
-      ),
 
       // 👈 ૨. Body (Settings Options)
       body: SafeArea(
@@ -155,11 +133,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     const Text(
                       'Settings',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: AppTextStyles.settingsHeaderTitle,
                     ),
                   ],
                 ),
@@ -205,11 +179,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       top: 0,
                       child: Text(
                         '?',
-                        style: TextStyle(
-                          color: AppColors.accentOrange,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppTextStyles.contactUsQuestionMark,
                       ),
                     ),
                   ],
@@ -297,12 +267,7 @@ class _SettingsTile extends StatelessWidget {
             const SizedBox(width: 24),
             Text(
               title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.3,
-              ),
+              style: AppTextStyles.settingsTileTitle,
             ),
             const Spacer(),
             const Icon(

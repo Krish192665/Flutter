@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Resources/supplier_footer.dart';
 import 'package:flutter_application_1/Resources/supplier_header.dart';
 import 'package:flutter_application_1/Supplier/supplier_setting.dart';
+import 'package:flutter_application_1/Supplier/supplier_profile.dart';
+import 'package:flutter_application_1/Supplier/supplier_menu.dart';
+import 'package:flutter_application_1/Supplier/supplier_notification.dart';
+import 'package:flutter_application_1/Supplier/supplier_current_order.dart';
 import '../App_Style/App_Screen_Style.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,11 +24,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 👈 નેવિગેશન બાર પર ક્લિક થતાં હેન્ડલ કરવા માટે
   void _onNavTapped(int index) {
-    if (index == 2) {
+    if (index == 1) {
+      // 👈 જો Current Order પર ક્લિક કરે તો SupplierCurrentOrderScreen પર લઈ જશે
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SupplierCurrentOrderScreen()),
+      );
+    } else if (index == 2) {
       // 👈 જો Settings પર ક્લિક કરે તો SettingScreen પર લઈ જશે
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const SettingScreen()),
+      );
+    } else if (index == 3) {
+      // 👈 જો Notification પર ક્લિક કરે તો SupplierNotificationScreen પર લઈ જશે
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SupplierNotificationScreen()),
       );
     } else {
       setState(() {
@@ -41,13 +57,19 @@ class _HomeScreenState extends State<HomeScreen> {
       // 👈 ૧. Header File Call
       appBar: CustomHeader(
         onProfileTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile Clicked')),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SupplierProfileScreen(),
+            ),
           );
         },
         onMenuTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Menu Clicked')),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SupplierMenuScreen(),
+            ),
           );
         },
       ),
@@ -123,17 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             width: 155,
             height: 155,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black12,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.12),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
+            decoration: AppStyles.supplierHomeLogoDecoration,
             child: ClipOval(
               child: Image.asset(
                 imagePath,
@@ -207,23 +219,11 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               margin: const EdgeInsets.only(top: 14.0),
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8F9FA), // આછો ગ્રે/વ્હાઇટ બેકગ્રાઉન્ડ
-                borderRadius: BorderRadius.circular(14.0),
-                border: Border.all(
-                  color: Colors.grey.shade300,
-                  width: 1.0,
-                ),
-              ),
+              decoration: AppStyles.supplierHomeExpandDecoration,
               child: Text(
                 description,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 13.5,
-                  height: 1.45,
-                  color: Color(0xFF374151),
-                  fontWeight: FontWeight.w400,
-                ),
+                style: AppTextStyles.homeExpandDescription,
               ),
             ),
             crossFadeState: isExpanded

@@ -96,11 +96,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 // 2. Field Label: "Enter Email Address"
                 const Text(
                   'Enter Email Address',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.enterEmailHeading,
                 ),
                 const SizedBox(height: 12),
 
@@ -132,11 +128,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: [
                       const Text(
                         'Back to ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: AppTextStyles.backToPrompt,
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
@@ -153,11 +145,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
                           child: Text(
                             'Sign In',
-                            style: TextStyle(
-                              color: AppColors.accentOrange,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: AppTextStyles.signInOrange,
                           ),
                         ),
                       ),
@@ -191,11 +179,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: [
                       const Text(
                         'Don’t have an account ?',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppTextStyles.dontHaveAccountPrompt,
                       ),
                       const SizedBox(height: 8),
                       GestureDetector(
@@ -212,11 +196,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                           child: Text(
                             'Sign Up',
-                            style: TextStyle(
-                              color: AppColors.accentOrange,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: AppTextStyles.signUpBold16,
                           ),
                         ),
                       ),

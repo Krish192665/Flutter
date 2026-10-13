@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Bussiness/business_home.dart';
 import '../App_Style/App_Screen_Style.dart';
+import '../Resources/profile_data_store.dart';
 import '../Screen/role_screen.dart'; // 👈 ૧. Back Button માટે Role Screen Import
 
 class BusinessRegisterScreen extends StatefulWidget {
@@ -58,6 +59,14 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
         return;
       }
 
+      // 👈 Save registered details to Global Store so Business Profile Page displays them
+      BusinessDataStore.update(
+        workshopName: _shopNameController.text.trim(),
+        ownerName: _ownerNameController.text.trim(),
+        email: _emailController.text.trim(),
+        machineCapabilities: Set.from(_selectedCapabilities),
+      );
+
       // Success SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -113,11 +122,7 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                     const SizedBox(width: 14),
                     const Text(
                       'Business Register',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                      style: AppTextStyles.businessRegisterTitle,
                     ),
                   ],
                 ),
@@ -125,14 +130,11 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                 const SizedBox(height: 6),
 
                 // Subtitle
-                Padding(
-                  padding: const EdgeInsets.only(left: 38.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 38.0),
                   child: Text(
                     'Create your SubSetu Partner Profile',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: AppColors.subtitleGray.withOpacity(0.9),
-                    ),
+                    style: AppTextStyles.businessRegisterSubtitle,
                   ),
                 ),
 
@@ -143,7 +145,7 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _shopNameController,
-                  style: const TextStyle(color: Colors.white),
+                  style: AppTextStyles.whiteInputFieldText,
                   decoration: AppStyles.businessInputDecoration(
                     hintText: 'e.g., Excel Machinery',
                   ),
@@ -162,7 +164,7 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _ownerNameController,
-                  style: const TextStyle(color: Colors.white),
+                  style: AppTextStyles.whiteInputFieldText,
                   decoration: AppStyles.businessInputDecoration(
                     hintText: 'Enter your name',
                   ),
@@ -182,7 +184,7 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(color: Colors.white),
+                  style: AppTextStyles.whiteInputFieldText,
                   decoration: AppStyles.businessInputDecoration(
                     hintText: 'Enter your Email Address',
                   ),
@@ -205,7 +207,7 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
-                  style: const TextStyle(color: Colors.white),
+                  style: AppTextStyles.whiteInputFieldText,
                   decoration: AppStyles.businessInputDecoration(
                     hintText: 'Enter your Password',
                     suffixIcon: IconButton(
@@ -240,12 +242,9 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                   style: AppTextStyles.capabilitiesTitle,
                 ),
                 const SizedBox(height: 4),
-                Text(
+                const Text(
                   'Select all equipment available at your unit',
-                  style: TextStyle(
-                    fontSize: 12.5,
-                    color: AppColors.subtitleGray.withOpacity(0.9),
-                  ),
+                  style: AppTextStyles.machineCapabilitySub,
                 ),
 
                 const SizedBox(height: 16),
@@ -269,23 +268,12 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.cardNavy,
-                          borderRadius: BorderRadius.circular(25.0),
-                          // પસંદ થયેલ હોય ત્યારે Orange Border
-                          border: Border.all(
-                            color: isSelected ? AppColors.accentOrange : Colors.transparent,
-                            width: 1.5,
-                          ),
-                        ),
+                        decoration: AppStyles.capabilityChipDecoration(isSelected),
                         child: Text(
                           capability,
-                          style: TextStyle(
-                            fontSize: 13.5,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                            // પસંદ થયેલ હોય ત્યારે Orange Text, નહીંતર White70 Text
-                            color: isSelected ? AppColors.accentOrange : Colors.white70,
-                          ),
+                          style: isSelected
+                              ? AppTextStyles.capabilityChipSelected
+                              : AppTextStyles.capabilityChipUnselected,
                         ),
                       ),
                     );
@@ -300,21 +288,10 @@ class _BusinessRegisterScreenState extends State<BusinessRegisterScreen> {
                   height: 54,
                   child: ElevatedButton(
                     onPressed: _handleSubmit,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accentOrange,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(28.0),
-                      ),
-                    ),
+                    style: AppStyles.createBusinessButtonStyle,
                     child: const Text(
                       'Create Business Profile',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                      ),
+                      style: AppTextStyles.createBusinessProfileButtonText,
                     ),
                   ),
                 ),

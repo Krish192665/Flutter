@@ -14,12 +14,7 @@ class BusinessFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.primaryNavy, // 👈 હેડર જેવો જ સેમ નેવી કલર
-        border: Border(
-          top: BorderSide(color: Colors.white10, width: 0.8),
-        ),
-      ),
+      decoration: AppStyles.footerDecoration,
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: SafeArea(
         top: false,
@@ -84,11 +79,7 @@ class BusinessFooter extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 11,
-                color: itemColor,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-              ),
+              style: AppTextStyles.footerNavLabel(itemColor, isSelected),
             ),
           ],
         ),

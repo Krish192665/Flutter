@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../App_Style/App_Screen_Style.dart';
 import 'forgot_password_screen.dart'; // Forgot Password પેજ સાથે કનેક્ટ
 import 'role_screen.dart';            // Sign Up ક્લિક કરતાં Role Screen પર જવા માટે
+import '../Supplier/supplier_home.dart';
+import '../Bussiness/business_home.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +17,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  // Selected Login Role: 'supplier' or 'business' (Default: 'supplier')
+  String _selectedRole = 'supplier';
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -25,19 +30,33 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin() {
     if (_formKey.currentState?.validate() ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Logging in successfully!'),
+        SnackBar(
+          content: Text(
+            _selectedRole == 'supplier'
+                ? 'Logging in as Supplier...'
+                : 'Logging in as Business...',
+          ),
           backgroundColor: Colors.green,
+          duration: const Duration(seconds: 1),
         ),
       );
 
-      // લૉગિન થયા પછી Role Screen પર જવા માટે
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SelectRoleScreen(),
-        ),
-      );
+      // રોલ મુજબ ડેશબોર્ડમાં રીડાયરેક્ટ:
+      if (_selectedRole == 'supplier') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const BusinessHomeScreen(),
+          ),
+        );
+      }
     }
   }
 
@@ -61,16 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: 140,
                     height: 140,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
+                    decoration: AppStyles.loginLogoDecoration,
                     child: ClipOval(
                       child: Image.asset(
                         'assets/images/i1.jpeg',
@@ -94,15 +104,97 @@ class _LoginScreenState extends State<LoginScreen> {
                   // 2. Title: "Login to Account"
                   const Text(
                     'Login to Account',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.3,
-                    ),
+                    style: AppTextStyles.loginAccountTitle,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 28),
+
+                  // 🏷️ Role Selection Segment Buttons (Supplier & Business)
+                  Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(maxWidth: 380),
+                    padding: const EdgeInsets.all(4),
+                    decoration: AppStyles.roleToggleContainerDecoration,
+                    child: Row(
+                      children: [
+                        // Option 1: Supplier
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedRole = 'supplier';
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(vertical: 11),
+                              decoration: AppStyles.roleSegmentDecoration(
+                                _selectedRole == 'supplier',
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.apartment_rounded,
+                                    size: 18,
+                                    color: _selectedRole == 'supplier'
+                                        ? Colors.black
+                                        : AppColors.subtitleGray,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Supplier',
+                                    style: _selectedRole == 'supplier'
+                                        ? AppTextStyles.roleSegmentActiveText
+                                        : AppTextStyles.roleSegmentInactiveText,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Option 2: Business
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedRole = 'business';
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(vertical: 11),
+                              decoration: AppStyles.roleSegmentDecoration(
+                                _selectedRole == 'business',
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.corporate_fare_rounded,
+                                    size: 18,
+                                    color: _selectedRole == 'business'
+                                        ? Colors.black
+                                        : AppColors.subtitleGray,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Business',
+                                    style: _selectedRole == 'business'
+                                        ? AppTextStyles.roleSegmentActiveText
+                                        : AppTextStyles.roleSegmentInactiveText,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 28),
 
                   // 3. Email Input Field (Split Box: Grey Icon + Orange Input)
                   _buildSplitInputField(
@@ -160,11 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: Text(
                           'Forgot password?',
-                          style: TextStyle(
-                            color: AppColors.accentOrange,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: AppTextStyles.forgotPasswordLink,
                         ),
                       ),
                     ),
@@ -180,11 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: AppStyles.primaryButtonStyle,
                       child: const Text(
                         'Login',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
-                        ),
+                        style: AppTextStyles.loginButtonText,
                       ),
                     ),
                   ),
@@ -197,11 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         const Text(
                           'Need an Account ? ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: AppTextStyles.needAccountPrompt,
                         ),
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
@@ -218,11 +298,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
                             child: Text(
                               'Sign Up',
-                              style: TextStyle(
-                                color: AppColors.accentOrange,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: AppTextStyles.signUpOrange,
                             ),
                           ),
                         ),
@@ -258,20 +334,14 @@ class _LoginScreenState extends State<LoginScreen> {
             // Field Label (White)
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
+              style: AppTextStyles.splitFieldLabel,
             ),
             const SizedBox(height: 8),
 
             // Dual-tone Rounded Pill Box
             Container(
               height: 52,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(26),
-              ),
+              decoration: AppStyles.splitFieldContainerDecoration,
               clipBehavior: Clip.antiAlias, // ખૂણાઓને રાઉન્ડ કટ કરવા માટે
               child: Row(
                 children: [
@@ -279,7 +349,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: 52,
                     height: double.infinity,
-                    color: const Color(0xFFD9DDE2), // સિલ્વર-ગ્રે કલર
+                    decoration: AppStyles.splitFieldIconContainerDecoration,
                     alignment: Alignment.center,
                     child: Icon(
                       icon,
@@ -299,23 +369,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: controller,
                         obscureText: obscureText,
                         keyboardType: keyboardType,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: AppTextStyles.splitInputText,
                         cursorColor: Colors.black,
                         onChanged: (text) => state.didChange(text),
-                        decoration: InputDecoration(
-                          hintText: hintText,
-                          hintStyle: TextStyle(
-                            color: Colors.black.withValues(alpha: 0.65),
-                            fontSize: 15,
-                          ),
-                          border: InputBorder.none,
-                          isDense: true,
-                          contentPadding: EdgeInsets.zero,
-                        ),
+                        decoration: AppStyles.splitFieldInputDecoration(hintText),
                       ),
                     ),
                   ),
@@ -329,11 +386,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(top: 6.0, left: 14.0),
                 child: Text(
                   state.errorText ?? '',
-                  style: const TextStyle(
-                    color: Color(0xFFF5A344), // warm orange error color
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.splitErrorText,
                 ),
               ),
           ],

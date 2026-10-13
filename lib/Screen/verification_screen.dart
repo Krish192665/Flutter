@@ -114,10 +114,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               const Center(
                 child: Text(
                   'Enter Verification Code',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                  ),
+                  style: AppTextStyles.enterVerificationCodeHeading,
                 ),
               ),
 
@@ -166,11 +163,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   children: [
                     const Text(
                       'if you didn’t receive a code! ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: AppTextStyles.didntReceiveCodePrompt,
                     ),
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
@@ -186,11 +179,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
                         child: Text(
                           'Resend',
-                          style: TextStyle(
-                            color: AppColors.accentOrange,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: AppTextStyles.resendCodeOrange,
                         ),
                       ),
                     ),
@@ -234,10 +223,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     return Container(
       width: 64,
       height: 64,
-      decoration: const BoxDecoration(
-        color: Color(0xFFD9DDE2),
-        shape: BoxShape.circle,
-      ),
+      decoration: AppStyles.otpCircleDecoration,
       alignment: Alignment.center,
       child: TextFormField(
         controller: controller,
@@ -245,20 +231,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
         keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
         maxLength: 1,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 26,
-          fontWeight: FontWeight.bold,
-        ),
+        style: AppTextStyles.otpDigitText,
         cursorColor: Colors.black,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
         ],
-        decoration: const InputDecoration(
-          counterText: '',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.zero,
-        ),
+        decoration: AppStyles.otpInputDecoration,
         onChanged: (value) {
           if (value.isNotEmpty && nextFocus != null) {
             nextFocus.requestFocus();

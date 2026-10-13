@@ -174,11 +174,13 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                   final faq = _faqs[index];
                   return Container(
                     decoration: AppStyles.faqCardDecoration,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                        dividerColor: Colors.transparent,
-                      ),
-                      child: ExpansionTile(
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          dividerColor: Colors.transparent,
+                        ),
+                        child: ExpansionTile(
                         iconColor: AppColors.accentOrange,
                         collapsedIconColor: Colors.white70,
                         title: Text(
@@ -199,7 +201,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                         ],
                       ),
                     ),
-                  );
+                  ),
+                );
                 },
               ),
               const SizedBox(height: 32),
@@ -294,10 +297,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.accentOrange.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
+              decoration: AppStyles.contactIconCircleDecoration,
               child: Icon(
                 icon,
                 color: AppColors.accentOrange,

@@ -53,96 +53,108 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
     return Scaffold(
       backgroundColor: AppColors.primaryNavy,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
 
-              // Top Header with Back Button and Centered Title
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  // 1. Back Button (ક્લિક કરતાં Login Page પર જવા માટે)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: AppColors.accentOrange,
-                        size: 22,
-                      ),
-                      onPressed: () {
-                        // 👈 Login Page પર રીડાયરેક્ટ કરવા માટે
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
+                        // Top Header with Back Button and Centered Title
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // 1. Back Button (ક્લિક કરતાં Login Page પર જવા માટે)
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                                icon: const Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  color: AppColors.accentOrange,
+                                  size: 22,
+                                ),
+                                onPressed: () {
+                                  // 👈 Login Page પર રીડાયરેક્ટ કરવા માટે
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+
+                            // 2. Centered Title
+                            const Text(
+                              'Select Your Role',
+                              style: AppTextStyles.roleHeaderTitle,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+
+                        // Subtitle
+                        const Center(
+                          child: Text(
+                            'How do you want to use SubSetu?',
+                            style: AppTextStyles.roleSubtitle,
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        ),
+                        const SizedBox(height: 40),
 
-                  // 2. Centered Title
-                  const Text(
-                    'Select Your Role',
-                    style: AppTextStyles.roleHeaderTitle,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
+                        // 1. Enterprise Supplier Card
+                        _buildRoleCard(
+                          roleKey: 'enterprise',
+                          title: 'Enterprise Supplier',
+                          description: 'Register orders & track material workflow',
+                          icon: Icons.apartment_rounded,
+                        ),
 
-              // Subtitle
-              const Center(
-                child: Text(
-                  'How do you want to use SubSetu?',
-                  style: AppTextStyles.roleSubtitle,
-                ),
-              ),
-              const SizedBox(height: 40),
+                        const SizedBox(height: 24),
 
-              // 1. Enterprise Supplier Card
-              _buildRoleCard(
-                roleKey: 'enterprise',
-                title: 'Enterprise Supplier',
-                description: 'Register orders & track material workflow',
-                icon: Icons.apartment_rounded,
-              ),
+                        // 2. Business Card
+                        _buildRoleCard(
+                          roleKey: 'business',
+                          title: 'Business',
+                          description: 'Accept jobs & upload PoD production sync',
+                          icon: Icons.corporate_fare_rounded,
+                        ),
 
-              const SizedBox(height: 24),
+                        const Spacer(),
 
-              // 2. Business Card
-              _buildRoleCard(
-                roleKey: 'business',
-                title: 'Business',
-                description: 'Accept jobs & upload PoD production sync',
-                icon: Icons.corporate_fare_rounded,
-              ),
+                        // Continue / Submit Button
+                        Center(
+                          child: SizedBox(
+                            width: 220,
+                            height: 54,
+                            child: ElevatedButton(
+                              onPressed: _handleContinue,
+                              style: AppStyles.primaryButtonStyle,
+                              child: const Text(
+                                'Continue',
+                                style: AppTextStyles.submitButtonText,
+                              ),
+                            ),
+                          ),
+                        ),
 
-              const Spacer(),
-
-              // Continue / Submit Button
-              Center(
-                child: SizedBox(
-                  width: 220,
-                  height: 54,
-                  child: ElevatedButton(
-                    onPressed: _handleContinue,
-                    style: AppStyles.primaryButtonStyle,
-                    child: const Text(
-                      'Continue',
-                      style: AppTextStyles.submitButtonText,
+                        const SizedBox(height: 20),
+                      ],
                     ),
                   ),
                 ),
               ),
-
-              const SizedBox(height: 20),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -178,10 +190,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
                   ? Container(
                       width: 22,
                       height: 22,
-                      decoration: const BoxDecoration(
-                        color: AppColors.selectedBorder,
-                        shape: BoxShape.circle,
-                      ),
+                      decoration: AppStyles.roleSelectedIndicatorDecoration,
                       child: const Icon(
                         Icons.check,
                         color: Colors.white,
@@ -191,10 +200,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
                   : Container(
                       width: 22,
                       height: 22,
-                      decoration: const BoxDecoration(
-                        color: AppColors.unselectedIndicator,
-                        shape: BoxShape.circle,
-                      ),
+                      decoration: AppStyles.roleUnselectedIndicatorDecoration,
                     ),
             ),
 

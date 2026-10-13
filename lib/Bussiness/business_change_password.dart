@@ -14,9 +14,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   // Text Controllers
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   // Password Visibility States (Show / Hide)
   bool _obscureCurrentPassword = true;
@@ -47,9 +49,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       // Settings Page પર Redirect કરવા માટે
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const SettingScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const SettingScreen()),
       );
     }
   }
@@ -119,7 +119,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     if (value == null || value.trim().isEmpty) {
                       return 'Enter email address';
                     }
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value)) {
                       return 'Enter a valid email';
                     }
                     return null;
@@ -136,10 +138,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 const SizedBox(height: 20),
 
                 // 3. Current Password
-                const Text(
-                  'Current Password',
-                  style: AppTextStyles.fieldLabel,
-                ),
+                const Text('Current Password', style: AppTextStyles.fieldLabel),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _currentPasswordController,
@@ -178,10 +177,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 const SizedBox(height: 20),
 
                 // 4. New Password
-                const Text(
-                  'New Password',
-                  style: AppTextStyles.fieldLabel,
-                ),
+                const Text('New Password', style: AppTextStyles.fieldLabel),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _newPasswordController,
@@ -223,10 +219,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 const SizedBox(height: 20),
 
                 // 5. Confirm Password
-                const Text(
-                  'Confirm Password',
-                  style: AppTextStyles.fieldLabel,
-                ),
+                const Text('Confirm Password', style: AppTextStyles.fieldLabel),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _confirmPasswordController,

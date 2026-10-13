@@ -56,10 +56,7 @@ class AboutUsScreen extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(14),
-                      decoration: const BoxDecoration(
-                        color: AppColors.accentOrange,
-                        shape: BoxShape.circle,
-                      ),
+                      decoration: AppStyles.aboutLogoDecoration,
                       child: const Icon(
                         Icons.hub_rounded,
                         size: 42,
@@ -69,11 +66,7 @@ class AboutUsScreen extends StatelessWidget {
                     const SizedBox(height: 14),
                     const Text(
                       'SubSetu',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: AppTextStyles.brandTitle,
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -118,7 +111,7 @@ class AboutUsScreen extends StatelessWidget {
               const Center(
                 child: Text(
                   'App Version 1.0.0 • Made with ❤️',
-                  style: TextStyle(color: Colors.white38, fontSize: 13),
+                  style: AppTextStyles.aboutVersionText,
                 ),
               ),
               const SizedBox(height: 16),
@@ -165,7 +158,7 @@ class AboutUsScreen extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(color: Colors.white, fontSize: 14),
+              style: AppTextStyles.aboutFeatureText,
             ),
           ),
         ],

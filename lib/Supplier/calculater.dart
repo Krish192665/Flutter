@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-
+import '../App_Style/App_Screen_Style.dart';
 
 class CalculaterScreen extends StatefulWidget {
 
@@ -317,12 +316,12 @@ String _display = '0';
       backgroundColor: bgColor,
 
       body: SafeArea(
-
-        child: Padding(
-
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-
-          child: Column(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Column(
 
             children: [
 
@@ -373,21 +372,9 @@ String _display = '0';
                     alignment: Alignment.centerRight,
 
                     child: Text(
-
                       _display,
-
-                      style: const TextStyle(
-
-                        color: Colors.white,
-
-                        fontSize: 72,
-
-                        fontWeight: FontWeight.w300,
-
-                      ),
-
+                      style: AppTextStyles.calcDisplay,
                       maxLines: 1,
-
                     ),
 
                   ),
@@ -503,19 +490,8 @@ String _display = '0';
                                 alignment: Alignment.centerLeft,
 
                                 child: Text(
-
                                   '0',
-
-                                  style: TextStyle(
-
-                                    color: Colors.white,
-
-                                    fontSize: 32,
-
-                                    fontWeight: FontWeight.w400,
-
-                                  ),
-
+                                  style: AppTextStyles.calcZeroButton,
                                 ),
 
                               ),
@@ -569,16 +545,13 @@ String _display = '0';
               ),
 
               const SizedBox(height: 16),
-
             ],
-
           ),
-
         ),
-
       ),
-
-    );
+    ),
+  ),
+);
 
   }
 
@@ -639,19 +612,8 @@ String _display = '0';
                 ? Icon(config.icon, color: config.textColor, size: 28)
 
                 : Text(
-
                     config.text ?? '',
-
-                    style: TextStyle(
-
-                      color: config.textColor,
-
-                      fontSize: 30,
-
-                      fontWeight: FontWeight.w400,
-
-                    ),
-
+                    style: AppTextStyles.calcButtonText(config.textColor),
                   ),
 
           ),

@@ -4,11 +4,21 @@ import '../App_Style/App_Screen_Style.dart';
 class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onProfileTap;
   final VoidCallback? onMenuTap;
+  final String? title;
+  final bool showBackButton;
+  final VoidCallback? onBackTap;
+  final bool showMenuButton;
+  final bool centerTitle;
 
   const CustomHeader({
     super.key,
     this.onProfileTap,
     this.onMenuTap,
+    this.title,
+    this.showBackButton = false,
+    this.onBackTap,
+    this.showMenuButton = true,
+    this.centerTitle = false,
   });
 
   @override
@@ -24,40 +34,69 @@ class CustomHeader extends StatelessWidget implements PreferredSizeWidget {
           height: 60.0,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // 👈 1. Left Profile / Avatar Icon (Gold/Orange)
-              GestureDetector(
-                onTap: onProfileTap ?? () {},
-                child: Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppColors.accentOrange,
-                      width: 2.2,
-                    ),
+              // 👈 1. Left: Back Button અથવા Profile Icon
+              if (showBackButton)
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: AppColors.accentOrange,
+                    size: 22,
                   ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.person,
-                      color: AppColors.accentOrange,
-                      size: 24,
+                  onPressed: onBackTap ??
+                      () {
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        }
+                      },
+                )
+              else
+                GestureDetector(
+                  onTap: onProfileTap ?? () {},
+                  child: Container(
+                    width: 38,
+                    height: 38,
+                    decoration: AppStyles.headerProfileIconDecoration,
+                    child: const Center(
+                      child: Icon(
+                        Icons.person,
+                        color: AppColors.accentOrange,
+                        size: 24,
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              // 👈 2. Right Hamburger Menu Icon
-              IconButton(
-                onPressed: onMenuTap ?? () {},
-                icon: const Icon(
-                  Icons.menu,
-                  color: AppColors.accentOrange,
-                  size: 32,
-                ),
-              ),
+              const SizedBox(width: 14),
+
+              // 👈 2. Title (જો હોય તો)
+              if (title != null)
+                Expanded(
+                  child: Text(
+                    title!,
+                    textAlign: centerTitle ? TextAlign.center : TextAlign.left,
+                    style: AppTextStyles.headerBarTitle,
+                  ),
+                )
+              else
+                const Spacer(),
+
+              // 👈 3. Right Hamburger Menu Icon અથવા Spacer
+              if (showMenuButton)
+                IconButton(
+                  onPressed: onMenuTap ?? () {},
+                  icon: const Icon(
+                    Icons.menu,
+                    color: AppColors.accentOrange,
+                    size: 32,
+                  ),
+                )
+              else if (showBackButton && centerTitle)
+                const SizedBox(width: 24)
+              else
+                const SizedBox.shrink(),
             ],
           ),
         ),

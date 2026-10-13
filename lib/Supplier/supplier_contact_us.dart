@@ -223,10 +223,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AppColors.accentOrange.withOpacity(0.15),
-              shape: BoxShape.circle,
-            ),
+            decoration: AppStyles.contactIconCircleDecoration,
             child: Icon(icon, color: AppColors.accentOrange, size: 22),
           ),
           const SizedBox(width: 14),

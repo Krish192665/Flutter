@@ -3,6 +3,10 @@ import 'package:flutter_application_1/Resources/business_header.dart'; // 👈 B
 import 'package:flutter_application_1/Resources/business_footer.dart'; // 👈 Business Footer
 import '../App_Style/App_Screen_Style.dart';
 import 'business_setting.dart'; // 👈 તમારી Setting ફાઈલનું નામ
+import 'business_notification.dart';
+import 'business_menu.dart';
+import 'business_current_order.dart';
+import 'business_profile.dart';
 
 class BusinessHomeScreen extends StatefulWidget {
   const BusinessHomeScreen({super.key});
@@ -16,11 +20,23 @@ class _BusinessHomeScreenState extends State<BusinessHomeScreen> {
 
   // 👈 નેવિગેશન બાર ટેબ ક્લિક હેન્ડલર
   void _onNavTapped(int index) {
-    if (index == 2) {
+    if (index == 1) {
+      // Current Order પેજ પર જશે
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const BusinessCurrentOrderScreen()),
+      );
+    } else if (index == 2) {
       // Settings પેજ પર જશે
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const SettingScreen()),
+      );
+    } else if (index == 3) {
+      // Notification પેજ પર જશે
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const BusinessNotificationScreen()),
       );
     } else {
       setState(() {
@@ -37,13 +53,19 @@ class _BusinessHomeScreenState extends State<BusinessHomeScreen> {
       // 👈 ૧. Business Header (Business Home Title & Menu)
       appBar: BusinessHeader(
         onProfileTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Business Profile Clicked')),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BusinessProfileScreen(),
+            ),
           );
         },
         onMenuTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Menu Clicked')),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BusinessMenuScreen(),
+            ),
           );
         },
       ),
@@ -151,11 +173,7 @@ class _BusinessHomeScreenState extends State<BusinessHomeScreen> {
   }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      decoration: BoxDecoration(
-        color: AppColors.cardNavy,
-        borderRadius: BorderRadius.circular(14.0),
-        border: Border.all(color: Colors.white10),
-      ),
+      decoration: AppStyles.statCardDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -166,11 +184,7 @@ class _BusinessHomeScreenState extends State<BusinessHomeScreen> {
           const SizedBox(height: 8),
           Text(
             value,
-            style: TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: valueColor,
-            ),
+            style: AppTextStyles.statCardValue(valueColor),
           ),
         ],
       ),
@@ -185,11 +199,7 @@ class _BusinessHomeScreenState extends State<BusinessHomeScreen> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18.0),
-      decoration: BoxDecoration(
-        color: AppColors.cardNavy,
-        borderRadius: BorderRadius.circular(14.0),
-        border: Border.all(color: Colors.white10),
-      ),
+      decoration: AppStyles.orderCardNavyDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
