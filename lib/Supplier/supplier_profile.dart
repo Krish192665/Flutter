@@ -22,7 +22,8 @@ class _SupplierProfileScreenState extends State<SupplierProfileScreen> {
   late final TextEditingController _phoneController;
   late final TextEditingController _companyController;
 
-  final int _currentNavIndex = 2; // Settings Tab active (as Profile is under account settings)
+  final int _currentNavIndex =
+      2; // Settings Tab active (as Profile is under account settings)
 
   @override
   void initState() {
@@ -114,10 +115,15 @@ class _SupplierProfileScreenState extends State<SupplierProfileScreen> {
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 550), // Responsive Constraint
+            constraints: const BoxConstraints(
+              maxWidth: 550,
+            ), // Responsive Constraint
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 28.0,
+                vertical: 20.0,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -184,7 +190,9 @@ class _SupplierProfileScreenState extends State<SupplierProfileScreen> {
                         if (value == null || value.trim().isEmpty) {
                           return 'Enter email address';
                         }
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                        if (!RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
                           return 'Enter a valid email address';
                         }
                         return null;
